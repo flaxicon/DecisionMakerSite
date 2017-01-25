@@ -22,7 +22,7 @@ Not doing the decision it chooses for you will incur the wraith of the goat-monk
 <a href="http://localhost/tests/a6n1.php?O=+&new=New">
     <button>New</button></a></br>
 <a href="http://localhost/tests/a6n1.php?O=+&choose=Choose">
-    <button>Choose</button></a></br>
+    <button>Choose</button></a></br></br>
 
 <?php
 }
@@ -31,15 +31,15 @@ $username = "root";
 $password = "";
 $dbname = "php tests";
 if(isset($_GET['add'])) {
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
     die("Cannot connect to decision matrix: " .  mysqli_connect_error());
-}
+	}
 	$text = $_GET['O'];
 	$sql = "INSERT INTO decisions (choices) VALUES ('$text')";
-if (mysqli_query($conn, $sql)) {
+	if (mysqli_query($conn, $sql)) {
 	MainPage();
     echo "Successfully added option to the decision matrix.";
 	} 
@@ -49,22 +49,9 @@ if (mysqli_query($conn, $sql)) {
 }
 
 $conn->close();
-/*
-	$fh = fopen("test.txt", 'a+') or die("Failed to open file");
-	
-	MainPage();
-	if (flock($fh, LOCK_EX))
-	{
-		fseek($fh, 0, SEEK_END);
-		fwrite($fh, "$text \n") or die("Could not write to file");
-		flock($fh, LOCK_UN);
-	}
-		fclose($fh);
-		echo "Successfully added option.";
-*/
 	}
 	
-	elseif(isset($_GET['new'])) {
+elseif(isset($_GET['new'])) {
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
@@ -87,41 +74,37 @@ $conn->close();
 	else {
 	 echo "Error: " . $sql . "<br>" . $conn->error;
 	}
-	
-
-$conn->close();
+	$conn->close();
 	}
-	elseif(isset($_GET['choose'])) {
 	
-		$filename = 'test.txt';
-		$fh = fopen("test.txt", 'a+');
-		$fh = file_get_contents($filename) or die("You didn't add any options..."); //http://stackoverflow.com/questions/3900985/in-php-how-do-i-load-txt-file-as-a-string
-		$line = explode( "\n", $fh );
-		MainPage();
-		if(count($line)<1){
-		echo "<p> Add Some Options first....</p>";
+elseif(isset($_GET['choose'])) {
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Cannot connect to decision matrix: " .  mysqli_connect_error());
+	}
+	MainPage();
+	$sql = "SELECT choiceID, choices FROM decisions";//http://www.w3schools.com/php/php_mysql_select.asp
+	$result = $conn->query($sql);
+	$rando = (rand(1,$result->num_rows));
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		if($row["choiceID"] == $rando){
+		echo "<h1>";
+        echo $row["choiceID"]. " : " . $row["choices"]. "<br>";
+		echo "</h1>";
 		}
 		else{
-		$rando = (rand(0,(count($line) -2)));
-		for ($start=0; $start < count($line)-1; $start++) { //http://www.homeandlearn.co.uk/php/php7p5.html
-		if($start == $rando){
-			echo "<h1>";
-			print $start;
-			echo " : ";
-			print $line[$start] . "<BR>";
-			echo "</h1>";
+		echo $row["choiceID"]. " : " . $row["choices"]. "<br>";
 		}
-		else{
-			print $start;
-			echo " : ";
-			print $line[$start] . "<BR>";
-		}
-			}
-		echo "<p>you must do option  :  ";
-		echo $rando ;
-		
-	
-		}
+    }
+	echo "<p>you must do option  :  ";
+	echo $rando ;
+	} else {
+    echo "<p> Add Some Options first....</p>";
+	}
+	$conn->close();
 	}
 	else{
 		MainPage();
