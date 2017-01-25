@@ -1,11 +1,6 @@
 <?php
 //a6n1 by Ryan Smalley on 3/1/2014
 require_once('common.php');
-function Clear(){
-MainPage();
-if (!unlink('test.txt')) echo "Could not Empty options list(probally in use)";
-else echo "Thank you, all options cleared";
-}
 function MainPage(){
 htmlStart('Decision Maker', 'style.css');
 ?>
@@ -46,8 +41,9 @@ if ($conn->connect_error) {
 	$sql = "INSERT INTO decisions (choices) VALUES ('$text')";
 if (mysqli_query($conn, $sql)) {
 	MainPage();
-    echo "Successfully added option decision matrix.";
-} else {
+    echo "Successfully added option to the decision matrix.";
+	} 
+	else {
 	MainPage();
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
@@ -69,7 +65,31 @@ $conn->close();
 	}
 	
 	elseif(isset($_GET['new'])) {
-		Clear();
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Cannot connect to decision matrix: " .  mysqli_connect_error());
+	}
+	$sql = "DROP TABLE IF EXISTS decisions";
+	if (mysqli_query($conn, $sql)) {
+	MainPage();
+    echo "Successfully cleared the decision matrix.";
+	echo  "<br>";
+	} 
+	else {
+	MainPage();
+    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	$sql = "CREATE TABLE decisions(choiceID INT(11) NOT NULL AUTO_INCREMENT,choices VARCHAR(25) DEFAULT NULL,PRIMARY KEY (choiceID))";
+	if (mysqli_query($conn, $sql)) {
+    echo "Successfully reinitilized the decision matrix.";
+	} 
+	else {
+	 echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	
+
+$conn->close();
 	}
 	elseif(isset($_GET['choose'])) {
 	
