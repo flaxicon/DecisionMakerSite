@@ -69,7 +69,7 @@ elseif(isset($_GET['new'])) {
 	MainPage();
     echo "Error: " . $sql . "<br>" . $conn->error;
 	}
-	$sql = "CREATE TABLE decisions(choiceID INT(11) NOT NULL AUTO_INCREMENT,choices VARCHAR(25) DEFAULT NULL,PRIMARY KEY (choiceID))";
+	$sql = "CREATE TABLE decisions(choiceID INT(11) NOT NULL AUTO_INCREMENT,choices VARCHAR(55) DEFAULT NULL,PRIMARY KEY (choiceID))";
 	if (mysqli_query($conn, $sql)) {
     echo "Successfully reinitilized the decision matrix.";
 	} 
