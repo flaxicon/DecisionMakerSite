@@ -28,35 +28,32 @@ Not doing the decision it chooses for you will incur the wraith of the goat-monk
     <button>New</button></a></br>
 <a href="http://localhost/tests/a6n1.php?O=+&choose=Choose">
     <button>Choose</button></a></br>
+
 <?php
 }
-function openConn(){
-	$servername = "localhost";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "php tests";
-
+if(isset($_GET['add'])) {
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-    die("Cannot Connect to decision matrix: " . $conn->connect_error);
-	} 
+    die("Cannot connect to decision matrix: " .  mysqli_connect_error());
 }
-
-
-if(isset($_GET['add'])) {
 	$text = $_GET['O'];
-	openConn();
-	$sql = "INSERT INTO decisions(Choices)VALUES($text)";
-
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+	$sql = "INSERT INTO decisions (choices) VALUES ('$text')";
+if (mysqli_query($conn, $sql)) {
+	MainPage();
+    echo "Successfully added option decision matrix.";
 } else {
+	MainPage();
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
+/*
 	$fh = fopen("test.txt", 'a+') or die("Failed to open file");
 	
 	MainPage();
@@ -68,6 +65,7 @@ $conn->close();
 	}
 		fclose($fh);
 		echo "Successfully added option.";
+*/
 	}
 	
 	elseif(isset($_GET['new'])) {
