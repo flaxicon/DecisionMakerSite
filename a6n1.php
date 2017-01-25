@@ -35,6 +35,7 @@ if(isset($_GET['add'])) {
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
+	MainPage();
     die("Cannot connect to decision matrix: " .  mysqli_connect_error());
 	}
 	$text = $_GET['O'];
@@ -55,6 +56,7 @@ elseif(isset($_GET['new'])) {
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
+		MainPage();
 		die("Cannot connect to decision matrix: " .  mysqli_connect_error());
 	}
 	$sql = "DROP TABLE IF EXISTS decisions";
@@ -81,6 +83,7 @@ elseif(isset($_GET['choose'])) {
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
+		MainPage();
 		die("Cannot connect to decision matrix: " .  mysqli_connect_error());
 	}
 	MainPage();
