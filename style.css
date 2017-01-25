@@ -1,0 +1,24 @@
+body {
+    background: #000000;
+    color: #ffffff;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: x-large;
+    padding: 10px;
+}
+h1 {
+    font-size: 36pt;
+    font-style: normal;
+    font-weight: bolder;
+    font-variant: small-caps;
+}
+hr{
+	color: #white;
+	font-size: 6pt;
+	}
+a:link,a:visited,a:active,a:hover,{
+	color: #black;
+}
+#copyright {
+    font-size: x-small;
+    text-align: center;
+ }
