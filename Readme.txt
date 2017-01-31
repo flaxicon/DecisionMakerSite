@@ -1,1 +1,1 @@
-This is a decision making site, it was started on a server for a class at mansfield university, and was then continued on XAMMP to work with a mysqli database.
+This is a decision making site, it was started on a server for a class at mansfield university, and was then continued on XAMMP to work with a mysqli database. I then converted the site to use the Laravel Framework, located in the LaravelEdition branch.
